@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ISS Spotter · Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: "Inter", sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* ===== BACKGROUND ===== */
+    body {
+      background: linear-gradient(
+        120deg,
+        #050510,
+        #0b0d2b,
+        #120c3a,
+        #050510
+      );
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+      position: relative;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ===== STARS ===== */
+    .star {
+      position: fixed;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0; }
+      50% { opacity: 0.7; }
+      100% { opacity: 0; }
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      position: relative;
+      z-index: 5;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.14),
+        rgba(255,255,255,0.04)
+      );
+      backdrop-filter: blur(18px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    }
+
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .title {
+      font-family: "Orbitron", sans-serif;
+      font-size: 22px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 12px rgba(140,170,255,0.6);
+    }
+
+    .pass-info {
+      font-size: 14px;
+      color: #d5dcff;
+    }
+
+    .notify-btn {
+      margin-top: 6px;
+      padding: 8px 22px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      color: #fff;
+      background: linear-gradient(90deg, #6a7cff, #9b6bff);
+      box-shadow: 0 0 18px rgba(140,150,255,0.5);
+    }
+
+    /* ===== PROFILE AVATAR ===== */
+    .profile-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.35);
+      box-shadow:
+        0 0 12px rgba(140,150,255,0.5),
+        0 0 24px rgba(120,140,255,0.35);
+    }
+
+    /* ===== MAP ===== */
+    #map {
+      position: relative;
+      z-index: 2;
+      height: calc(100% - 200px);
+      width: calc(100% - 48px);
+      margin: 24px auto;
+      border-radius: 22px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(14px);
+      box-shadow:
+        0 0 30px rgba(120,150,255,0.25),
+        0 30px 80px rgba(0,0,0,0.85);
+    }
+
+    /* ===== LOCATION ONBOARDING ===== */
+    .location-banner {
+      position: absolute;
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 6;
+      background: rgba(20,25,60,0.85);
+      backdrop-filter: blur(16px);
+      border-radius: 18px;
+      padding: 14px 22px;
+      font-size: 13px;
+      display: none;
+      box-shadow: 0 0 24px rgba(120,150,255,0.4);
+    }
+
+    .location-banner button {
+      margin-left: 14px;
+      padding: 6px 14px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(90deg,#6a7cff,#9b6bff);
+      color: #fff;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer-note {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 11px;
+      color: #aab2ff;
+      opacity: 0.7;
+      z-index: 4;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Stars -->
+  <div id="star-container"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <div class="title">ISS SPOTTER</div>
+      <div class="pass-info">Next visible pass: <strong>Calculating…</strong></div>
+      <button class="notify-btn">Keep me posted</button>
+    </div>
+
+    <img id="profileAvatar" class="profile-avatar"
+         onclick="window.location.href='profile.html'" />
+  </div>
+
+  <!-- Location onboarding banner -->
+  <div id="locationBanner" class="location-banner">
+    Enable location to calculate ISS visibility near you.
+    <button id="enableLocationBtn">Enable</button>
+  </div>
+
+  <!-- Map -->
+  <div id="map"></div>
+
+  <!-- Footer -->
+  <div class="footer-note">
+    Next visible pass feature is currently under development. We’ll notify you once it’s live.
+  </div>
+
+  <!-- Leaflet -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="./js/iss-map.js"></script>
+
+  <!-- Stars -->
+  <script>
+    const starContainer = document.getElementById("star-container");
+    for (let i = 0; i < 160; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+      const size = Math.random() * 1.5 + 0.5;
+      star.style.width = star.style.height = `${size}px`;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.animationDuration = `${Math.random() * 7 + 5}s`;
+      star.style.animationDelay = `${Math.random() * 7}s`;
+      starContainer.appendChild(star);
+    }
+  </script>
+
+  <!-- Auth + onboarding logic -->
+  <script type="module">
+    import { auth } from "./js/firebase-init.js";
+    import { onAuthStateChanged } from
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      createUserIfMissing,
+      getUserProfile,
+      saveUserLocation
+    } from "./js/auth.js";
+
+    const banner = document.getElementById("locationBanner");
+    const enableBtn = document.getElementById("enableLocationBtn");
+    const avatar = document.getElementById("profileAvatar");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return location.replace("login.html");
+
+      avatar.src = user.photoURL || "";
+
+      await createUserIfMissing(user);
+
+      const profile = await getUserProfile(user.uid);
+      if (profile && !profile.locationSet) {
+        banner.style.display = "block";
+      }
+
+      enableBtn.onclick = () => {
+        navigator.geolocation.getCurrentPosition(async pos => {
+          await saveUserLocation(
+            user,
+            pos.coords.latitude,
+            pos.coords.longitude
+          );
+          banner.style.display = "none";
+        });
+      };
+    });
+  </script>
+
+</body>
+</html>

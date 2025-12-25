@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ISS Spotter · Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: "Inter", sans-serif;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    body {
+      background: linear-gradient(
+        120deg,
+        #050510,
+        #0b0d2b,
+        #120c3a,
+        #050510
+      );
+      background-size: 400% 400%;
+      animation: gradientMove 18s ease infinite;
+      position: relative;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ===== STARS ===== */
+    .star {
+      position: fixed;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0; }
+      50% { opacity: 0.8; }
+      100% { opacity: 0; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 5;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 440px;
+      padding: 42px 34px;
+      text-align: center;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      /* backdrop-filter: blur(18px); */
+      box-shadow:
+        0 0 30px rgba(120, 150, 255, 0.35),
+        0 40px 90px rgba(0,0,0,0.8);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-16px); }
+      100% { transform: translateY(0); }
+    }
+
+    .logo {
+      font-family: "Orbitron", sans-serif;
+      font-size: 30px;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+      text-shadow: 0 0 14px rgba(140, 170, 255, 0.7);
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #cfd6ff;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+
+    /* Google login button – styled to match UI */
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      background: linear-gradient(90deg, #6a7cff, #9b6bff);
+      box-shadow: 0 0 18px rgba(120,150,255,0.45);
+      transition: transform 0.25s ease;
+    }
+
+    .login-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .footer {
+      margin-top: 26px;
+      font-size: 12px;
+      color: #aab2ff;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ⭐ Stars -->
+  <div id="star-container"></div>
+
+  <div class="container">
+    <div class="card">
+      <div class="logo">ISS SPOTTER</div>
+      <div class="subtitle">
+        Track the International Space Station in real time<br>
+        and get notified when it’s visible from your location.
+      </div>
+
+      <button id="googleLoginBtn" class="login-btn">
+        Sign in with Google
+      </button>
+
+      <div class="footer">
+        We only use your location to calculate ISS visibility.
+      </div>
+    </div>
+  </div>
+
+  <!-- ⭐ Star generation (UNCHANGED) -->
+  <script>
+    const starContainer = document.getElementById("star-container");
+
+    for (let i = 0; i < 160; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+      const size = Math.random() * 1.5 + 0.5;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.animationDuration = `${Math.random() * 7 + 5}s`;
+      star.style.animationDelay = `${Math.random() * 7}s`;
+      starContainer.appendChild(star);
+    }
+  </script>
+
+  <!-- 🔐 AUTH (MODULAR, UI SAFE) -->
+  <script type="module">
+    import { auth } from "./js/firebase-init.js";
+    import {
+      GoogleAuthProvider,
+      signInWithPopup,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const loginBtn = document.getElementById("googleLoginBtn");
+    const provider = new GoogleAuthProvider();
+
+    // Already logged in → dashboard
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.location.replace("dashboard.html");
+      }
+    });
+
+    loginBtn.addEventListener("click", async () => {
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (err) {
+        console.error("Google login failed:", err);
+        alert("Login failed. Please try again.");
+      }
+    });
+  </script>
+
+</body>
+</html>

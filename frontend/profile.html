@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>ISS Spotter · Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, sans-serif;
+  background: linear-gradient(120deg, #050510, #0b0d2b, #120c3a);
+  background-size: 400% 400%;
+  animation: bgMove 20s ease infinite;
+  color: #fff;
+}
+
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== STARS (SAME AS LOGIN) ===== */
+.star {
+  position: fixed;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle linear infinite;
+  z-index: 1;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
+.container {
+  max-width: 520px;
+  margin: 40px auto;
+  padding: 28px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(18px);
+  box-shadow:
+    0 0 30px rgba(120,150,255,0.25),
+    0 40px 90px rgba(0,0,0,0.9);
+  animation: floatCard 8s ease-in-out infinite;
+}
+
+@keyframes floatCard {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.back {
+  font-size: 13px;
+  cursor: pointer;
+  color: #b8c4ff;
+  margin-bottom: 14px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 26px;
+}
+
+.avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  box-shadow: 0 0 20px rgba(140,160,255,0.6);
+  object-fit: cover;
+}
+
+.name {
+  font-family: Orbitron;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.email {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.section {
+  margin-top: 26px;
+}
+
+.section h3 {
+  font-size: 14px;
+  margin-bottom: 10px;
+  color: #d0d8ff;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+button {
+  margin-top: 12px;
+  padding: 8px 16px;
+  border-radius: 18px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  background: linear-gradient(90deg,#6a7cff,#9b6bff);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(140,160,255,0.5);
+}
+
+button.danger {
+  background: linear-gradient(90deg,#ff5c5c,#ff3b3b);
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toggle input {
+  transform: scale(1.2);
+}
+</style>
+</head>
+
+<body>
+
+<!-- ⭐ Stars -->
+<div id="star-container"></div>
+
+<div class="container">
+  <div class="back" onclick="location.href='dashboard.html'">← Back to dashboard</div>
+
+  <!-- USER -->
+  <div class="header">
+    <img id="avatar" class="avatar" />
+    <div id="name" class="name"></div>
+    <div id="email" class="email"></div>
+  </div>
+
+  <!-- LOCATION -->
+  <div class="section">
+    <h3>Location</h3>
+    <div class="card">
+      <div id="locationText">Loading…</div>
+      <button onclick="updateLocation()">Update location</button>
+    </div>
+  </div>
+
+  <!-- NOTIFICATIONS -->
+  <div class="section">
+    <h3>Notifications</h3>
+    <div class="card toggle">
+      <span>Email me when ISS is visible</span>
+      <input type="checkbox" id="notifyToggle">
+    </div>
+    <div style="font-size:12px;margin-top:8px;opacity:.85">
+      Next visible pass feature is currently under development.
+      We’ll notify you once it’s live.
+    </div>
+  </div>
+
+  <!-- PRIVACY -->
+  <div class="section">
+    <h3>Privacy & Data Usage</h3>
+    <div class="card">
+      ISS Spotter is designed with minimal data collection and full user control.
+      Below is a transparent explanation of how your data is handled.
+      <br><br>
+
+      <strong>What we store:</strong><br>
+      • Your Google display name and email address (for identification and communication)<br>
+      • Your last provided geographic location (latitude & longitude) to calculate ISS visibility<br>
+      • Your notification preference (whether you want email alerts or not)<br>
+      <br>
+
+      <strong>When location is accessed:</strong><br>
+      • Only when you explicitly grant permission<br>
+      • Only when you click “Update location”<br>
+      • We do not track your live or continuous movement<br>
+      <br>
+
+      <strong>Email notifications:</strong><br>
+      • Emails are sent only on days when the ISS is expected to be visible from your saved location<br>
+      • No marketing, promotional, or unrelated emails are ever sent<br>
+      <br>
+
+      <strong>What we do NOT do:</strong><br>
+      • We do not track you in real time<br>
+      • We do not access your contacts, files, or browsing activity<br>
+      • We do not sell, share, or monetize your data in any form<br>
+      • We do not use third-party analytics to profile users<br>
+      <br>
+
+      You remain in full control of your data at all times.
+      You may update or delete your stored data whenever you choose.
+    </div>
+  </div>
+
+  <!-- ACCOUNT -->
+  <div class="section">
+    <h3>Account</h3>
+    <button onclick="logout()">Log out</button>
+    <br>
+    <button onclick="deleteUserData()">Delete my data</button>
+    <br>
+    <button class="danger" onclick="deleteAccount()">Delete my account</button>
+  </div>
+</div>
+
+<!-- ⭐ Star generation (SAME AS LOGIN) -->
+<script>
+const starContainer = document.getElementById("star-container");
+
+for (let i = 0; i < 160; i++) {
+  const star = document.createElement("div");
+  star.className = "star";
+  const size = Math.random() * 1.5 + 0.5;
+  star.style.width = `${size}px`;
+  star.style.height = `${size}px`;
+  star.style.left = `${Math.random() * 100}%`;
+  star.style.top = `${Math.random() * 100}%`;
+  star.style.animationDuration = `${Math.random() * 7 + 5}s`;
+  star.style.animationDelay = `${Math.random() * 7}s`;
+  starContainer.appendChild(star);
+}
+</script>
+
+<script type="module">
+import { auth, db } from "./js/firebase-init.js";
+import {
+  onAuthStateChanged,
+  signOut,
+  deleteUser
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+  doc,
+  getDoc,
+  setDoc,
+  deleteDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+let currentUser;
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) return location.replace("login.html");
+  currentUser = user;
+
+  document.getElementById("avatar").src = user.photoURL;
+  document.getElementById("name").textContent = user.displayName;
+  document.getElementById("email").textContent = user.email;
+
+  const ref = doc(db, "users", user.uid);
+  const snap = await getDoc(ref);
+
+  if (snap.exists()) {
+    const d = snap.data();
+    document.getElementById("locationText").textContent =
+      d.location
+        ? `Lat: ${d.location.lat}, Lon: ${d.location.lon}`
+        : "Location not set";
+    document.getElementById("notifyToggle").checked = !!d.notifyByEmail;
+  }
+});
+
+window.updateLocation = () => {
+  navigator.geolocation.getCurrentPosition(async (pos) => {
+    await setDoc(doc(db, "users", currentUser.uid), {
+      location: {
+        lat: pos.coords.latitude,
+        lon: pos.coords.longitude
+      },
+      locationUpdatedAt: serverTimestamp()
+    }, { merge: true });
+
+    location.reload();
+  });
+};
+
+document.getElementById("notifyToggle").addEventListener("change", async e => {
+  await setDoc(doc(db, "users", currentUser.uid), {
+    notifyByEmail: e.target.checked
+  }, { merge: true });
+});
+
+window.deleteUserData = async () => {
+  if (!confirm("This will delete your saved location and notification preferences. Continue?")) return;
+  await deleteDoc(doc(db, "users", currentUser.uid));
+  alert("Your stored data has been deleted.");
+  location.reload();
+};
+
+window.logout = async () => {
+  await signOut(auth);
+  location.replace("login.html");
+};
+
+window.deleteAccount = async () => {
+  if (!confirm("This will permanently delete your account and all associated data. This cannot be undone. Continue?")) return;
+  await deleteDoc(doc(db, "users", currentUser.uid));
+  await deleteUser(currentUser);
+  location.replace("login.html");
+};
+</script>
+
+</body>
+</html>
