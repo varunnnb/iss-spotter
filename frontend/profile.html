@@ -9,134 +9,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-<style>
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: Inter, sans-serif;
-  background: linear-gradient(120deg, #050510, #0b0d2b, #120c3a);
-  background-size: 400% 400%;
-  animation: bgMove 20s ease infinite;
-  color: #fff;
-}
 
-@keyframes bgMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+<link rel="stylesheet" href="./css/profile.css" />
 
-/* ===== STARS (SAME AS LOGIN) ===== */
-.star {
-  position: fixed;
-  background: #fff;
-  border-radius: 50%;
-  opacity: 0;
-  animation: twinkle linear infinite;
-  z-index: 1;
-}
-
-@keyframes twinkle {
-  0% { opacity: 0; }
-  50% { opacity: 0.8; }
-  100% { opacity: 0; }
-}
-
-.container {
-  max-width: 520px;
-  margin: 40px auto;
-  padding: 28px;
-  border-radius: 22px;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(18px);
-  box-shadow:
-    0 0 30px rgba(120,150,255,0.25),
-    0 40px 90px rgba(0,0,0,0.9);
-  animation: floatCard 8s ease-in-out infinite;
-}
-
-@keyframes floatCard {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-
-.back {
-  font-size: 13px;
-  cursor: pointer;
-  color: #b8c4ff;
-  margin-bottom: 14px;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 26px;
-}
-
-.avatar {
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.4);
-  box-shadow: 0 0 20px rgba(140,160,255,0.6);
-  object-fit: cover;
-}
-
-.name {
-  font-family: Orbitron;
-  font-size: 20px;
-  margin-top: 10px;
-}
-
-.email {
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-.section {
-  margin-top: 26px;
-}
-
-.section h3 {
-  font-size: 14px;
-  margin-bottom: 10px;
-  color: #d0d8ff;
-}
-
-.card {
-  background: rgba(255,255,255,0.05);
-  border-radius: 14px;
-  padding: 14px;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-button {
-  margin-top: 12px;
-  padding: 8px 16px;
-  border-radius: 18px;
-  border: none;
-  cursor: pointer;
-  font-size: 13px;
-  background: linear-gradient(90deg,#6a7cff,#9b6bff);
-  color: #fff;
-  box-shadow: 0 0 16px rgba(140,160,255,0.5);
-}
-
-button.danger {
-  background: linear-gradient(90deg,#ff5c5c,#ff3b3b);
-}
-
-.toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.toggle input {
-  transform: scale(1.2);
-}
-</style>
 </head>
 
 <body>
@@ -159,7 +34,7 @@ button.danger {
     <h3>Location</h3>
     <div class="card">
       <div id="locationText">Loading…</div>
-      <button onclick="updateLocation()">Update location</button>
+      <button id="openLocationModal">Update location</button>
     </div>
   </div>
 
@@ -177,41 +52,50 @@ button.danger {
   </div>
 
   <!-- PRIVACY -->
-  <div class="section">
-    <h3>Privacy & Data Usage</h3>
-    <div class="card">
-      ISS Spotter is designed with minimal data collection and full user control.
-      Below is a transparent explanation of how your data is handled.
-      <br><br>
+<div class="section">
+  <h3>Privacy & Data Usage</h3>
+  <div class="card">
+    ISS Spotter is designed with minimal data collection, transparency,
+    and full user control. Below is a detailed explanation of how your data
+    is handled.
+    <br><br>
 
-      <strong>What we store:</strong><br>
-      • Your Google display name and email address (for identification and communication)<br>
-      • Your last provided geographic location (latitude & longitude) to calculate ISS visibility<br>
-      • Your notification preference (whether you want email alerts or not)<br>
-      <br>
+    <strong>What we store:</strong><br>
+    • Your Google display name and email address (for authentication and communication)<br>
+    • The last location you provide (latitude and longitude), used only to calculate ISS visibility<br>
+    • Your notification preference (whether you choose to receive emails or not)<br>
+    <br>
 
-      <strong>When location is accessed:</strong><br>
-      • Only when you explicitly grant permission<br>
-      • Only when you click “Update location”<br>
-      • We do not track your live or continuous movement<br>
-      <br>
+    <strong>How location is provided:</strong><br>
+    • You may allow browser-based location access, search for a city or place, or manually enter coordinates<br>
+    • Granting browser location permission is optional and not required to use the application<br>
+    • Only the most recent location you provide is stored<br>
+    • We do not collect location history and do not track movement over time<br>
+    <br>
 
-      <strong>Email notifications:</strong><br>
-      • Emails are sent only on days when the ISS is expected to be visible from your saved location<br>
-      • No marketing, promotional, or unrelated emails are ever sent<br>
-      <br>
+    <strong>Email communications:</strong><br>
+    • If enabled, emails are sent on days when the ISS is expected to be visible from your saved location<br>
+    • Emails may also be sent to inform you about new versions, feature releases, or important updates to the application<br>
+    • All emails are plain text only<br>
+    • No sponsored, promotional, marketing, or third-party content is ever included<br>
+    • You may disable email notifications at any time from your profile<br>
+    <br>
 
-      <strong>What we do NOT do:</strong><br>
-      • We do not track you in real time<br>
-      • We do not access your contacts, files, or browsing activity<br>
-      • We do not sell, share, or monetize your data in any form<br>
-      • We do not use third-party analytics to profile users<br>
-      <br>
+    <strong>What we do NOT do:</strong><br>
+    • We do not track you in real time<br>
+    • We do not continuously access your location<br>
+    • We do not access your contacts, files, or browsing activity<br>
+    • We do not sell, share, or monetize your data in any form<br>
+    • We do not use third-party analytics or profiling tools<br>
+    <br>
 
-      You remain in full control of your data at all times.
-      You may update or delete your stored data whenever you choose.
-    </div>
+    <strong>Your control:</strong><br>
+    You remain in full control of your data at all times.
+    You may update or delete your stored location, delete your saved user data,
+    or permanently delete your account whenever you choose.
   </div>
+</div>
+
 
   <!-- ACCOUNT -->
   <div class="section">
@@ -223,6 +107,52 @@ button.danger {
     <button class="danger" onclick="deleteAccount()">Delete my account</button>
   </div>
 </div>
+
+
+
+
+<!-- 🌍 LOCATION MODAL -->
+<div id="locationModal" class="modal-overlay hidden">
+  <div class="modal-card">
+
+    <div class="modal-header">
+      <h2>Update your location</h2>
+      <span id="closeModal" class="close-btn">✕</span>
+    </div>
+
+    <p class="modal-text">
+      Update your location to improve ISS visibility predictions.
+      We store only your last provided location.
+    </p>
+
+    <!-- City search -->
+    <div class="modal-section">
+      <label>Search city or place</label>
+      <input id="cityInput" placeholder="e.g. Mumbai, London">
+      <div id="cityResults" class="city-results"></div>
+    </div>
+
+    <div class="divider">OR</div>
+
+    <button id="useLocationBtn" class="primary-btn">
+      📍 Use my current location
+    </button>
+
+    <details class="advanced">
+      <summary>Advanced: enter coordinates manually</summary>
+      <div class="coord-inputs">
+        <input id="latInput" type="number" step="any" placeholder="Latitude">
+        <input id="lonInput" type="number" step="any" placeholder="Longitude">
+      </div>
+      <button id="saveCoordsBtn" class="secondary-btn">
+        Save coordinates
+      </button>
+    </details>
+
+  </div>
+</div>
+
+
 
 <!-- ⭐ Star generation (SAME AS LOGIN) -->
 <script>
@@ -260,6 +190,12 @@ import {
 
 let currentUser;
 
+const modal = document.getElementById("locationModal");
+document.getElementById("openLocationModal").onclick =
+  () => modal.classList.remove("hidden");
+document.getElementById("closeModal").onclick =
+  () => modal.classList.add("hidden");
+
 onAuthStateChanged(auth, async (user) => {
   if (!user) return location.replace("login.html");
   currentUser = user;
@@ -281,19 +217,50 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-window.updateLocation = () => {
-  navigator.geolocation.getCurrentPosition(async (pos) => {
-    await setDoc(doc(db, "users", currentUser.uid), {
-      location: {
-        lat: pos.coords.latitude,
-        lon: pos.coords.longitude
-      },
-      locationUpdatedAt: serverTimestamp()
-    }, { merge: true });
+async function saveLocation(lat, lon) {
+  await setDoc(doc(db, "users", currentUser.uid), {
+    location: { lat, lon },
+    locationUpdatedAt: serverTimestamp()
+  }, { merge: true });
+  modal.classList.add("hidden");
+  location.reload();
+}
 
-    location.reload();
-  });
+useLocationBtn.onclick = () => {
+  navigator.geolocation.getCurrentPosition(pos =>
+    saveLocation(pos.coords.latitude, pos.coords.longitude)
+  );
 };
+
+saveCoordsBtn.onclick = () => {
+  const lat = parseFloat(latInput.value);
+  const lon = parseFloat(lonInput.value);
+  if (!isNaN(lat) && !isNaN(lon)) saveLocation(lat, lon);
+};
+
+let t;
+cityInput.addEventListener("input", () => {
+  clearTimeout(t);
+  t = setTimeout(async () => {
+    if (!cityInput.value) return cityResults.innerHTML = "";
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityInput.value)}&format=json&limit=5`
+    );
+    const data = await res.json();
+    cityResults.innerHTML = "";
+    data.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "city-item";
+      div.textContent = p.display_name;
+      div.onclick = () => saveLocation(+p.lat, +p.lon);
+      cityResults.appendChild(div);
+    });
+  }, 400);
+});
+
+
+
+
 
 document.getElementById("notifyToggle").addEventListener("change", async e => {
   await setDoc(doc(db, "users", currentUser.uid), {

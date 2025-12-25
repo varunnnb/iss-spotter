@@ -1,0 +1,184 @@
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: "Inter", sans-serif;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    /* ===== BACKGROUND ===== */
+    body {
+      background: linear-gradient(
+        120deg,
+        #050510,
+        #0b0d2b,
+        #120c3a,
+        #050510
+      );
+      background-size: 400% 400%;
+      animation: gradientMove 20s ease infinite;
+      position: relative;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ===== STARS ===== */
+    .star {
+      position: fixed;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0; }
+      50% { opacity: 0.8; }
+      100% { opacity: 0; }
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .container {
+      position: relative;
+      z-index: 5;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .content {
+      max-width: 700px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+      100% { transform: translateY(0); }
+    }
+
+    .title {
+      font-family: "Orbitron", sans-serif;
+      font-size: 42px;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 18px rgba(140, 170, 255, 0.7);
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #d5dcff;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    .cta-btn {
+      padding: 14px 36px;
+      font-size: 15px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      background: linear-gradient(90deg, #6a7cff, #9b6bff);
+      box-shadow:
+        0 0 20px rgba(140,150,255,0.5),
+        0 0 40px rgba(120,140,255,0.35);
+      transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px) scale(1.04);
+    }
+
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 6, 20, 0.75);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .modal {
+      position: relative;
+      max-width: 560px;
+      width: 90%;
+      padding: 32px;
+      border-radius: 18px;
+      background: linear-gradient(
+        180deg,
+        rgba(255,255,255,0.15),
+        rgba(255,255,255,0.05)
+      );
+      backdrop-filter: blur(18px);
+      box-shadow:
+        0 0 30px rgba(120,150,255,0.35),
+        0 40px 90px rgba(0,0,0,0.8);
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #cfd6ff;
+    }
+
+    .modal h2 {
+      font-family: "Orbitron", sans-serif;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+
+    .modal p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #e2e6ff;
+      margin-bottom: 12px;
+    }
+
+    .proceed-btn {
+      margin-top: 18px;
+      padding: 12px 28px;
+      border-radius: 24px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(90deg, #7f8cff, #b18cff);
+      color: #fff;
+      font-size: 14px;
+    }
+
+    /* ===== FOOTER ===== */
+.footer-note {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+  color: #aab2ff;
+  opacity: 0.7;
+  z-index: 4;
+}

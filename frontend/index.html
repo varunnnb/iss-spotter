@@ -13,180 +13,9 @@
     rel="stylesheet"
   >
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <link rel="stylesheet" href="./css/index.css" />
 
-    html, body {
-      height: 100%;
-      font-family: "Inter", sans-serif;
-      overflow: hidden;
-      color: #fff;
-    }
 
-    /* ===== BACKGROUND ===== */
-    body {
-      background: linear-gradient(
-        120deg,
-        #050510,
-        #0b0d2b,
-        #120c3a,
-        #050510
-      );
-      background-size: 400% 400%;
-      animation: gradientMove 20s ease infinite;
-      position: relative;
-    }
-
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* ===== STARS ===== */
-    .star {
-      position: fixed;
-      background: #fff;
-      border-radius: 50%;
-      opacity: 0;
-      animation: twinkle linear infinite;
-      z-index: 1;
-    }
-
-    @keyframes twinkle {
-      0% { opacity: 0; }
-      50% { opacity: 0.8; }
-      100% { opacity: 0; }
-    }
-
-    /* ===== MAIN CONTENT ===== */
-    .container {
-      position: relative;
-      z-index: 5;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      text-align: center;
-    }
-
-    .content {
-      max-width: 700px;
-      animation: float 6s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-14px); }
-      100% { transform: translateY(0); }
-    }
-
-    .title {
-      font-family: "Orbitron", sans-serif;
-      font-size: 42px;
-      letter-spacing: 3px;
-      margin-bottom: 20px;
-      text-shadow: 0 0 18px rgba(140, 170, 255, 0.7);
-    }
-
-    .subtitle {
-      font-size: 16px;
-      color: #d5dcff;
-      line-height: 1.8;
-      margin-bottom: 40px;
-    }
-
-    .cta-btn {
-      padding: 14px 36px;
-      font-size: 15px;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      color: #fff;
-      background: linear-gradient(90deg, #6a7cff, #9b6bff);
-      box-shadow:
-        0 0 20px rgba(140,150,255,0.5),
-        0 0 40px rgba(120,140,255,0.35);
-      transition: all 0.3s ease;
-    }
-
-    .cta-btn:hover {
-      transform: translateY(-2px) scale(1.04);
-    }
-
-    /* ===== MODAL ===== */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(5, 6, 20, 0.75);
-      backdrop-filter: blur(6px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-    }
-
-    .modal {
-      position: relative;
-      max-width: 560px;
-      width: 90%;
-      padding: 32px;
-      border-radius: 18px;
-      background: linear-gradient(
-        180deg,
-        rgba(255,255,255,0.15),
-        rgba(255,255,255,0.05)
-      );
-      backdrop-filter: blur(18px);
-      box-shadow:
-        0 0 30px rgba(120,150,255,0.35),
-        0 40px 90px rgba(0,0,0,0.8);
-      animation: fadeIn 0.4s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 14px;
-      right: 16px;
-      font-size: 20px;
-      cursor: pointer;
-      color: #cfd6ff;
-    }
-
-    .modal h2 {
-      font-family: "Orbitron", sans-serif;
-      font-size: 20px;
-      margin-bottom: 14px;
-    }
-
-    .modal p {
-      font-size: 14px;
-      line-height: 1.7;
-      color: #e2e6ff;
-      margin-bottom: 12px;
-    }
-
-    .proceed-btn {
-      margin-top: 18px;
-      padding: 12px 28px;
-      border-radius: 24px;
-      border: none;
-      cursor: pointer;
-      background: linear-gradient(90deg, #7f8cff, #b18cff);
-      color: #fff;
-      font-size: 14px;
-    }
-  </style>
 </head>
 
 <body>
@@ -205,6 +34,14 @@
     </div>
   </div>
 
+  <!-- ℹ Footer -->
+  <div class="footer-note">
+    <div>
+        v1.1
+    </div>
+  </div>
+
+
   <!-- MODAL -->
   <div class="modal-overlay" id="modal">
     <div class="modal">
@@ -212,27 +49,42 @@
 
       <h2>Data Usage & Privacy</h2>
 
-      <p>
-        ISS Spotter uses your location information strictly to calculate
-        when the International Space Station will be visible from your area.
-      </p>
+        <p>
+        ISS Spotter uses location information only to calculate when the
+        International Space Station (ISS) may be visible from your sky.
+        </p>
 
-      <p>
-        We collect your approximate geographic coordinates (latitude and longitude)
-        only after you sign in and grant permission. This data is stored securely
-        and is never shared with third parties.
-      </p>
+        <p>
+        You may choose how your location is provided. You can allow browser-based
+        location access, search for a city or place, or manually enter geographic
+        coordinates (latitude and longitude). Granting browser location access is
+        optional and not required to use the application.
+        </p>
 
-      <p>
-        Your email address is used solely for authentication and, if you choose,
-        to notify you on days when the ISS is visible from your location.
-        You can opt out of notifications at any time.
-      </p>
+        <p>
+        Only the last location you provide is stored. ISS Spotter does not track
+        your movement in real time and does not collect location history.
+        </p>
 
-      <p>
-        We do not track your movement, do not sell data, and do not collect
-        any information unrelated to ISS visibility predictions.
-      </p>
+        <p>
+        Your email address is used solely for authentication and, if you explicitly
+        enable notifications, to send alerts on days when the ISS is expected to be
+        visible from your saved location. You may enable or disable notifications at
+        any time from your profile.
+        </p>
+
+        <p>
+        ISS Spotter does not sell, share, or monetize user data, does not perform
+        background tracking, and does not collect information unrelated to ISS
+        visibility and user account functionality.
+        </p>
+
+        <p>
+        You remain in full control of your data. You may update or delete your saved
+        location, delete stored user data, or delete your account entirely at any
+        time.
+        </p>
+
 
       <button class="proceed-btn" onclick="proceedToLogin()">
         Proceed
