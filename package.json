@@ -1,0 +1,24 @@
+{
+  "name": "iss-spotter",
+  "version": "1.0.0",
+  "description": "ISS Spotter is a web application that allows users to track the real-time position of the International Space Station (ISS) and receive notifications when the ISS is visible from their location. The project focuses on accuracy, transparency in data usage, and a clean user experience.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/varunnnb/iss-spotter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/varunnnb/iss-spotter/issues"
+  },
+  "homepage": "https://github.com/varunnnb/iss-spotter#readme",
+  "dependencies": {
+    "@getbrevo/brevo": "^3.0.1",
+    "firebase-admin": "^13.6.0"
+  }
+}
