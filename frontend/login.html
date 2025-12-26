@@ -23,7 +23,7 @@
     <!-- ℹ Footer -->
   <div class="footer-note">
     <div>
-        v1.1
+        v1.1.1
     </div>
   </div>
 
@@ -66,34 +66,36 @@
     }
   </script>
 
-  <!-- 🔐 AUTH (MODULAR, UI SAFE) -->
-  <script type="module">
-    import { auth } from "./js/firebase-init.js";
-    import {
-      GoogleAuthProvider,
-      signInWithPopup,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    const loginBtn = document.getElementById("googleLoginBtn");
-    const provider = new GoogleAuthProvider();
+<script type="module">
+  import { auth } from "./js/firebase-init.js";
+  import { createUserIfMissing } from "./js/auth.js";
+  import {
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    // Already logged in → dashboard
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        window.location.replace("dashboard.html");
-      }
-    });
+  const loginBtn = document.getElementById("googleLoginBtn");
+  const provider = new GoogleAuthProvider();
 
-    loginBtn.addEventListener("click", async () => {
-      try {
-        await signInWithPopup(auth, provider);
-      } catch (err) {
-        console.error("Google login failed:", err);
-        alert("Login failed. Please try again.");
-      }
-    });
-  </script>
+
+loginBtn.addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+
+    // 🚨 MUST complete before redirect
+    await createUserIfMissing(result.user);
+
+    window.location.replace("dashboard.html");
+  } catch (err) {
+    console.error("Google login failed:", err);
+    alert("Login failed. Please try again.");
+  }
+});
+
+</script>
+
 
 </body>
 </html>

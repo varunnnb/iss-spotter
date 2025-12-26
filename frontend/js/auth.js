@@ -18,15 +18,32 @@ export async function createUserIfMissing(user) {
   const snap = await getDoc(userRef);
 
   if (!snap.exists()) {
+    // Fresh user
     await setDoc(userRef, {
-      email: user.email,
-      locationSet: false,
-      notifyByEmail: false,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
-    });
+    email: user.email,
+    locationSet: snap.exists() ? snap.data().locationSet ?? false : false,
+    notifyByEmail: snap.exists() ? snap.data().notifyByEmail ?? false : false,
+    createdAt: snap.exists() ? snap.data().createdAt ?? serverTimestamp() : serverTimestamp(),
+    updatedAt: serverTimestamp()
+    }, { merge: true });
+
+  } else {
+    // 🔥 Repair missing fields if doc already exists
+    const data = snap.data();
+    const updates = {};
+
+    if (!data.email) updates.email = user.email;
+    if (data.locationSet === undefined) updates.locationSet = !!data.location;
+    if (data.notifyByEmail === undefined) updates.notifyByEmail = false;
+    if (!data.createdAt) updates.createdAt = serverTimestamp();
+
+    if (Object.keys(updates).length > 0) {
+      updates.updatedAt = serverTimestamp();
+      await updateDoc(userRef, updates);
+    }
   }
 }
+
 
 /**
  * Save user location (called ONLY after user consent).

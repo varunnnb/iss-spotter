@@ -1,3 +1,89 @@
+# ISS Spotter – Version v1.1 Release Notes
+
+Release Date: 2025-12-25 
+Version: v1.1  
+Status: Incremental Feature Update
+
+---
+
+## Overview
+
+Version v1.1 builds on the stable v1.0 release by improving user onboarding, location handling flexibility, and data transparency. This update focuses on giving users more control over how their location is provided and clearly communicating data usage across the application.
+
+No breaking changes were introduced in this release.
+
+---
+
+## What’s New in v1.1
+
+### Location Setup Improvements
+- Added a guided **location setup modal** for new users
+- Location is now mandatory to configure before using the dashboard, preventing invalid states
+- Users can choose how to provide location via:
+  - City or place search
+  - Browser-based geolocation
+  - Manual latitude and longitude entry
+- Location setup is reusable and consistent across:
+  - Initial onboarding
+  - Profile page location updates
+
+---
+
+### Manual Location Entry
+- Users can now fully use the application **without granting browser location access**
+- Advanced users can manually enter precise latitude and longitude values
+- Only the most recent location is stored; no history is retained
+
+---
+
+### Profile Page Enhancements
+- Integrated the same location setup modal into the profile page
+- Improved clarity around location updates and stored values
+- Enhanced user control over location data without leaving the profile page
+
+---
+
+### Privacy & Consent Updates
+- Updated onboarding consent text to reflect:
+  - Optional browser location access
+  - Manual and city-based location entry
+- Expanded privacy disclosure on the profile page to include:
+  - Clear explanation of email usage
+  - Notification of future version and update emails
+  - Explicit confirmation that all emails are plain text only
+  - No sponsored, promotional, or marketing content
+- Improved transparency around data storage, usage, and user rights
+
+---
+
+### UI & Structure Improvements
+- Refactored dashboard layout by separating HTML and CSS for better maintainability
+- Improved consistency between dashboard and profile UI components
+- Maintained existing space-themed design and animations
+
+---
+
+## Notes
+
+- All new features are optional and user-controlled
+- Existing users are not required to reconfigure location unless they choose to
+- Backend architecture remains unchanged and fully compatible
+
+---
+
+## What’s Next
+
+Planned for future releases:
+- ISS visibility prediction calculations
+- Scheduled email notifications for ISS sightings
+- Orbit path visualization enhancements
+
+---
+
+End of v1.1 Release Notes
+
+
+
 # ISS Spotter – Version v1.0 Release Notes
 
 Release Date: 2025-12-25
@@ -140,89 +226,3 @@ ISS Spotter v1.0 was developed with a focus on clean architecture, user trust, a
 ---
 
 End of v1.0 Release Notes
-
-
-
-# ISS Spotter – Version v1.1 Release Notes
-
-Release Date: 2025-12-25 
-Version: v1.1  
-Status: Incremental Feature Update
-
----
-
-## Overview
-
-Version v1.1 builds on the stable v1.0 release by improving user onboarding, location handling flexibility, and data transparency. This update focuses on giving users more control over how their location is provided and clearly communicating data usage across the application.
-
-No breaking changes were introduced in this release.
-
----
-
-## What’s New in v1.1
-
-### Location Setup Improvements
-- Added a guided **location setup modal** for new users
-- Location is now mandatory to configure before using the dashboard, preventing invalid states
-- Users can choose how to provide location via:
-  - City or place search
-  - Browser-based geolocation
-  - Manual latitude and longitude entry
-- Location setup is reusable and consistent across:
-  - Initial onboarding
-  - Profile page location updates
-
----
-
-### Manual Location Entry
-- Users can now fully use the application **without granting browser location access**
-- Advanced users can manually enter precise latitude and longitude values
-- Only the most recent location is stored; no history is retained
-
----
-
-### Profile Page Enhancements
-- Integrated the same location setup modal into the profile page
-- Improved clarity around location updates and stored values
-- Enhanced user control over location data without leaving the profile page
-
----
-
-### Privacy & Consent Updates
-- Updated onboarding consent text to reflect:
-  - Optional browser location access
-  - Manual and city-based location entry
-- Expanded privacy disclosure on the profile page to include:
-  - Clear explanation of email usage
-  - Notification of future version and update emails
-  - Explicit confirmation that all emails are plain text only
-  - No sponsored, promotional, or marketing content
-- Improved transparency around data storage, usage, and user rights
-
----
-
-### UI & Structure Improvements
-- Refactored dashboard layout by separating HTML and CSS for better maintainability
-- Improved consistency between dashboard and profile UI components
-- Maintained existing space-themed design and animations
-
----
-
-## Notes
-
-- All new features are optional and user-controlled
-- Existing users are not required to reconfigure location unless they choose to
-- Backend architecture remains unchanged and fully compatible
-
----
-
-## What’s Next
-
-Planned for future releases:
-- ISS visibility prediction calculations
-- Scheduled email notifications for ISS sightings
-- Orbit path visualization enhancements
-
----
-
-End of v1.1 Release Notes

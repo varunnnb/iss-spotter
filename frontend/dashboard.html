@@ -47,7 +47,7 @@
     <div>    Next visible pass feature is currently under development.
     We’ll notify you once it’s live.</div>
     <div>
-        v1.1
+        v1.1.1
     </div>
   </div>
 
@@ -175,6 +175,7 @@
     async function saveLocation(lat, lon) {
       await setDoc(doc(db, "users", currentUser.uid), {
         location: { lat, lon },
+        locationSet: true,
         locationUpdatedAt: serverTimestamp()
       }, { merge: true });
 

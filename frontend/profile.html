@@ -185,6 +185,7 @@ import {
   getDoc,
   setDoc,
   deleteDoc,
+  deleteField,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -220,7 +221,8 @@ onAuthStateChanged(auth, async (user) => {
 async function saveLocation(lat, lon) {
   await setDoc(doc(db, "users", currentUser.uid), {
     location: { lat, lon },
-    locationUpdatedAt: serverTimestamp()
+    locationUpdatedAt: serverTimestamp(),
+    locationSet: true
   }, { merge: true });
   modal.classList.add("hidden");
   location.reload();
@@ -270,8 +272,18 @@ document.getElementById("notifyToggle").addEventListener("change", async e => {
 
 window.deleteUserData = async () => {
   if (!confirm("This will delete your saved location and notification preferences. Continue?")) return;
-  await deleteDoc(doc(db, "users", currentUser.uid));
-  alert("Your stored data has been deleted.");
+
+  const userRef = doc(db, "users", currentUser.uid);
+
+  await setDoc(userRef, {
+    location: deleteField(),          // ❌ remove location
+    locationSet: false,               // 🔁 reset onboarding
+    notifyByEmail: false,              // 🔁 reset preference
+    locationUpdatedAt: serverTimestamp(),
+    updatedAt: serverTimestamp()
+  }, {merge: true}); 
+
+  alert("Your saved location and preferences have been deleted.");
   location.reload();
 };
 
