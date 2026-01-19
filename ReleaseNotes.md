@@ -1,3 +1,78 @@
+# ISS Spotter – Version v2.0 Release Notes
+
+Release Date: 2026-01-20  
+Version: v2.0  
+Status: Major Feature Release
+
+---
+
+## Overview
+
+Version v2.0 introduces the core feature of ISS Spotter: **predicting the next visible ISS pass for the user’s saved location**.
+
+This release adds a complete pass prediction flow to the dashboard while keeping performance stable through Firestore-based caching to reduce unnecessary recalputations and backend load.
+
+No UI breaking changes were introduced, and the existing onboarding + manual location setup flow remains fully compatible.
+
+---
+
+## What’s New in v2.0
+
+### Next Visible ISS Pass Prediction
+- Added a new **Next Visible ISS Pass widget** on the dashboard
+- The widget calculates and displays the next visible pass based on the user’s saved location
+- Pass information shown includes:
+  - Date
+  - Start time and end time
+  - Duration (seconds)
+  - Maximum elevation (degrees)
+
+---
+
+### Firestore-Based Pass Caching (Reduced Backend Load)
+- Added Firestore storage for computed pass data inside the user document:
+  - `nextPass.startTime`
+  - `nextPass.endTime`
+  - `nextPass.durationSec`
+  - `nextPass.maxElevationDeg`
+  - `nextPass.nextPassComputedAt`
+- The dashboard does not recompute the pass if the last computation was done within the last 3 hours
+- This ensures:
+  - Faster dashboard loading
+  - Better scalability
+  - Reduced API / function usage
+
+---
+
+### Auto Recalculation on Location Update
+- Next pass prediction is automatically recalculated when the user updates their location
+- This applies to location updates done via:
+  - Dashboard location setup modal
+  - Profile page location update modal
+- Ensures the displayed pass data always matches the latest saved location
+
+---
+
+## Notes
+
+- Pass prediction is computed using the user’s saved latitude and longitude
+- Computations are designed to remain lightweight and scalable under free-tier constraints
+- Predictions may vary slightly from external tools depending on calculation methods, TLE freshness, and visibility thresholds
+
+---
+
+## What’s Next
+
+Planned for future releases:
+- Email notifications on ISS visible days with timing details
+- "Keep me posted" email subscription flow
+- More advanced map visualization features for ISS passes and tracking
+
+---
+
+End of v2.0 Release Notes
+
+
 # ISS Spotter – Version v1.1 Release Notes
 
 Release Date: 2025-12-25 
