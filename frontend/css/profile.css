@@ -254,3 +254,14 @@ button.danger {
 }
 
 
+/* ===== FOOTER ===== */
+.footer-note {
+  position: static;        /* or just remove position entirely */
+  margin-top: 40px;        /* space above footer */
+  padding: 12px 0;
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+  color: #aab2ff;
+  opacity: 0.7;
+}

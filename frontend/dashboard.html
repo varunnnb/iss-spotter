@@ -26,10 +26,6 @@
   <div class="header">
     <div class="header-left">
       <div class="title">ISS SPOTTER</div>
-      <div class="pass-info">
-        Next visible pass: <strong>Calculating…</strong>
-      </div>
-      <button class="notify-btn">Keep me posted</button>
     </div>
 
     <img
@@ -39,15 +35,72 @@
     />
   </div>
 
+
+<!-- 🧩 ISS WIDGETS CONTAINER -->
+<div class="iss-widgets-container">
+
+  <!-- 🛰 NEXT ISS PASS WIDGET -->
+  <div class="iss-pass-widget floating-card" id="issPassWidget">
+    <div class="widget-title">ISS SPOTTER</div>
+
+    <div class="pass-status" id="passStatus">
+      Calculating next visible pass…
+    </div>
+
+    <div class="pass-details hidden" id="passDetails">
+      <div class="row">
+        <span>Date</span>
+        <strong id="passDate">—</strong>
+      </div>
+      <div class="row">
+        <span>Time</span>
+        <strong id="passTime">—</strong>
+      </div>
+      <div class="row">
+        <span>Duration</span>
+        <strong id="passDuration">—</strong>
+      </div>
+      <div class="row">
+        <span>Max Elevation</span>
+        <strong id="passElevation">—</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🛰 ISS LIVE INFO WIDGET -->
+  <div class="iss-pass-widget floating-card" id="issLiveWidget">
+    <div class="widget-title">ISS LIVE STATUS</div>
+
+    <div class="pass-details">
+      <div class="row">
+        <span>Latitude</span>
+        <strong id="issLat">—</strong>
+      </div>
+      <div class="row">
+        <span>Longitude</span>
+        <strong id="issLon">—</strong>
+      </div>
+      <div class="row">
+        <span>Altitude</span>
+        <strong id="issAlt">— km</strong>
+      </div>
+      <div class="row">
+        <span>Velocity</span>
+        <strong id="issVel">— km/h</strong>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
   <!-- 🗺 Map -->
   <div id="map"></div>
 
   <!-- ℹ Footer -->
   <div class="footer-note">
-    <div>    Next visible pass feature is currently under development.
-    We’ll notify you once it’s live.</div>
     <div>
-        v1.1.1
+        v2.0
     </div>
   </div>
 
@@ -101,6 +154,9 @@
 
   <!-- Leaflet -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/satellite.js/dist/satellite.min.js"></script>
+
+  
 
   <!-- ISS Map -->
   <script type="module" src="./js/iss-map.js"></script>
@@ -140,6 +196,24 @@
 
     onAuthStateChanged(auth, async (user) => {
       if (!user) return location.replace("login.html");
+      
+        const token = await user.getIdToken(true);
+
+        const res = await fetch(
+            "https://us-central1-iss-spotter-6c8ba.cloudfunctions.net/computeNextVisiblePass",
+            {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+            }
+        );
+
+        const data = await res.json();
+        console.log("Next pass result:", data);
+
+
+
       currentUser = user;
       avatar.src = user.photoURL || "";
 
@@ -181,6 +255,8 @@
 
       modal.classList.add("hidden");
       location.reload(); // safe reload AFTER location exists
+
+      await loadNextIssPass(true);
     }
 
     // 🌍 City search (Nominatim)
@@ -211,6 +287,155 @@
         cityResults.appendChild(div);
       });
     }
+
+
+
+
+const passStatus = document.getElementById("passStatus");
+const passDetails = document.getElementById("passDetails");
+
+const passDate = document.getElementById("passDate");
+const passTime = document.getElementById("passTime");
+const passDuration = document.getElementById("passDuration");
+const passElevation = document.getElementById("passElevation");
+
+// 🔒 Cooldown = 3 hours
+const PASS_COOLDOWN_MS = 3 * 60 * 60 * 1000;
+
+function renderPassFromFirestore(nextPass) {
+  const start = nextPass.startTime.toDate();
+  const end = nextPass.endTime.toDate();
+
+  passStatus.textContent = "Next ISS pass visible from your location";
+  passDetails.classList.remove("hidden");
+
+  passDate.textContent = start.toDateString();
+  passTime.textContent =
+    `${start.toLocaleTimeString()} – ${end.toLocaleTimeString()}`;
+  passDuration.textContent =
+    `${Math.round(nextPass.durationSec)} seconds`;
+  passElevation.textContent =
+    `${Number(nextPass.maxElevationDeg).toFixed(1)}°`;
+}
+
+function renderPassFromBackend(pass) {
+  const start = new Date(pass.startTime);
+  const end = new Date(pass.endTime);
+
+  passStatus.textContent = "Next ISS pass visible from your location";
+  passDetails.classList.remove("hidden");
+
+  passDate.textContent = start.toDateString();
+  passTime.textContent =
+    `${start.toLocaleTimeString()} – ${end.toLocaleTimeString()}`;
+  passDuration.textContent =
+    `${Math.round(pass.durationSec)} seconds`;
+  passElevation.textContent =
+    `${pass.maxElevationDeg.toFixed(1)}°`;
+}
+
+async function loadNextIssPass(force = false) {
+  try {
+    passStatus.textContent = "Checking saved pass…";
+    passDetails.classList.add("hidden");
+
+    const user = auth.currentUser;
+    if (!user) return;
+
+    // 1) Always check Firestore first
+    const userRef = doc(db, "users", user.uid);
+    const snap = await getDoc(userRef);
+
+    if (snap.exists()) {
+      const userData = snap.data();
+      const nextPass = userData?.nextPass;
+      const computedAt = nextPass?.nextPassComputedAt;
+
+      // If we have valid saved pass
+      if (nextPass && computedAt && nextPass.startTime && nextPass.endTime) {
+        const computedAtMs = computedAt.toMillis();
+        const ageMs = Date.now() - computedAtMs;
+
+        // ✅ If within 3 hours AND not forced -> show cached only (NO backend call)
+        if (!force && ageMs < PASS_COOLDOWN_MS) {
+          renderPassFromFirestore(nextPass);
+          return;
+        }
+      }
+    }
+
+    // 2) Only reach here if:
+    // - force === true (location updated)
+    // OR
+    // - no pass exists in Firestore
+    // OR
+    // - pass is older than 3 hours
+    passStatus.textContent = "Calculating next visible pass…";
+    passDetails.classList.add("hidden");
+
+    const token = await user.getIdToken(true);
+
+    const res = await fetch(
+      "https://us-central1-iss-spotter-6c8ba.cloudfunctions.net/computeNextVisiblePass",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    const data = await res.json();
+
+    if (data.status !== "ok") {
+      passStatus.textContent = "No visible ISS pass in the next 72 hours.";
+      return;
+    }
+
+    renderPassFromBackend(data.nextPass);
+
+  } catch (err) {
+    console.error(err);
+    passStatus.textContent = "Failed to compute ISS visibility.";
+  }
+}
+
+// Initial load (safe, won't recalc if <3h old)
+onAuthStateChanged(auth, (user) => {
+  if (user) loadNextIssPass(false);
+});
+
+
+const ISS_LIVE_API =
+  "https://us-central1-iss-spotter-6c8ba.cloudfunctions.net/getIssLivePublic";
+
+const issLat = document.getElementById("issLat");
+const issLon = document.getElementById("issLon");
+const issAlt = document.getElementById("issAlt");
+const issVel = document.getElementById("issVel");
+
+async function updateIssLiveWidget() {
+  try {
+    const res = await fetch(ISS_LIVE_API);
+    const data = await res.json();
+
+    if (data.status !== "ok") return;
+
+    issLat.textContent = data.latitude.toFixed(4);
+    issLon.textContent = data.longitude.toFixed(4);
+    issAlt.textContent = `${data.altitude.toFixed(1)} km`;
+    issVel.textContent = `${data.velocity.toFixed(0)} km/h | ${((data.velocity)/3600).toFixed(2)} km/s`;
+  } catch (err) {
+    console.error("ISS live widget fetch failed:", err);
+  }
+}
+
+// Run once + refresh every 5s
+updateIssLiveWidget();
+setInterval(updateIssLiveWidget, 5000);
+
+
+
   </script>
 
 </body>

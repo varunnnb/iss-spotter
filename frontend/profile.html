@@ -109,6 +109,13 @@
 </div>
 
 
+  <!-- ℹ Footer -->
+  <div class="footer-note">
+    <div>
+        v2.0
+    </div>
+  </div>
+
 
 
 <!-- 🌍 LOCATION MODAL -->
@@ -226,6 +233,7 @@ async function saveLocation(lat, lon) {
   }, { merge: true });
   modal.classList.add("hidden");
   location.reload();
+  await loadNextIssPass(true);
 }
 
 useLocationBtn.onclick = () => {

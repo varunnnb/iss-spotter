@@ -9,7 +9,7 @@ html, body {
   height: 100%;
   font-family: "Inter", sans-serif;
   color: #fff;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 /* ===== BACKGROUND ===== */
@@ -124,6 +124,13 @@ body {
     0 30px 80px rgba(0,0,0,0.85);
 }
 
+/* ISS emoji marker */
+.iss-emoji {
+  font-size: 26px;
+  filter: drop-shadow(0 0 6px rgba(46, 203, 255, 0.9));
+}
+
+
 /* ===== LOCATION ONBOARDING ===== */
 .location-banner {
   position: absolute;
@@ -153,15 +160,16 @@ body {
 
 /* ===== FOOTER ===== */
 .footer-note {
-  position: absolute;
-  bottom: 10px;
+  position: static;        /* or just remove position entirely */
+  margin-top: 40px;        /* space above footer */
+  padding: 12px 0;
   width: 100%;
   text-align: center;
   font-size: 11px;
   color: #aab2ff;
   opacity: 0.7;
-  z-index: 4;
 }
+
 
 
 /* ===== LOCATION MODAL ===== */
@@ -289,4 +297,127 @@ body {
 
 .coord-inputs input {
   flex: 1;
+}
+
+
+/* ===============================
+   NEXT ISS PASS WIDGET
+================================ */
+
+.iss-pass-widget {
+  width: 100%;
+  max-width: 420px;
+  margin: 20px auto;
+  padding: 22px;
+  border-radius: 18px;
+  background: linear-gradient(
+    145deg,
+    rgba(25, 35, 65, 0.9),
+    rgba(12, 16, 32, 0.95)
+  );
+  box-shadow:
+    0 0 30px rgba(120, 160, 255, 0.25),
+    inset 0 0 25px rgba(255, 255, 255, 0.04);
+  color: #eaf0ff;
+}
+
+.floating-card {
+  animation: floatCard 6s ease-in-out infinite;
+}
+
+@keyframes floatCard {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.widget-title {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+}
+
+.pass-status {
+  text-align: center;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+
+.pass-details {
+  margin-top: 12px;
+}
+
+.pass-details .row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.95rem;
+}
+
+.pass-details span {
+  opacity: 0.7;
+}
+
+.notify-btn {
+  margin-top: 18px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 22px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #fff;
+  background: linear-gradient(135deg, #6b8cff, #4b6fff);
+  box-shadow: 0 0 14px rgba(100, 140, 255, 0.6);
+}
+
+.notify-btn:hover {
+  opacity: 0.9;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* ===============================
+   ISS WIDGETS LAYOUT
+================================ */
+
+.iss-widgets-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+/* Desktop: side-by-side */
+@media (min-width: 700px) {
+  .iss-widgets-container {
+    flex-wrap: nowrap; 
+  }
+
+  .iss-pass-widget {
+    flex: 1;
+    max-width: 420px;
+  } 
+}
+
+/* Mobile: stacked */
+@media (max-width: 699px) {
+  .iss-pass-widget {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+
+/* ISS Orbit Track (neon blue) */
+.iss-orbit-glow {
+  filter: drop-shadow(0 0 6px rgba(46, 203, 255, 0.55));
 }
