@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/varunnnb/iss-spotter#readme",
   "dependencies": {
-    "@getbrevo/brevo": "^3.0.1",
+    "@getbrevo/brevo": "^3.0.4",
     "firebase-admin": "^13.6.0"
   }
 }
