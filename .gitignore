@@ -18,6 +18,7 @@ firebase-debug.*.log*
 # .firebaserc
 
 # Runtime data
+
 pids
 *.pid
 *.seed
@@ -67,3 +68,15 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+
+
+node_modules
+
+secrets
+
+.firebase.json
+.firebase.indexes.json
+.firebase.rules
+
+.gitignore
