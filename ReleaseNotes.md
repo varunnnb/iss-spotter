@@ -1,3 +1,73 @@
+# ISS Spotter – Version v2.2 Release Notes
+
+Release Date: 2026-03-03  
+Version: v2.2  
+Status: UI & Product Transparency Update  
+
+---
+
+## Overview
+
+Version v2.2 focuses on improving clarity, transparency, and product identity.
+
+This release introduces a dedicated **About page**, adds clearer project documentation, and refines the dashboard header navigation to improve overall usability.
+
+No core tracking logic was modified in this release.
+
+---
+
+## What’s New in v2.2
+
+### Dedicated About Page
+- Added a fully styled **About page**
+- Explains:
+  - The story behind ISS Spotter
+  - How the platform works
+  - Data sources and public APIs used
+  - Privacy policy in clear language
+  - Creator information and contact links
+- Maintains the same animated gradient + glass UI theme
+
+---
+
+### Dashboard Navigation Update
+- Added an **About button** in the dashboard header
+- Improved navigation flow between:
+  - Dashboard
+  - Profile
+  - About page
+
+---
+
+### Documentation Improvements
+- Updated release documentation structure
+- Improved internal version tracking
+- Better repository organization
+
+---
+
+## Notes
+
+- No backend changes were introduced
+- No database schema changes
+- No new permissions required
+- No impact on existing users
+
+---
+
+## What’s Next
+
+Planned for upcoming releases:
+- Email preference refinement
+- Pass confidence scoring
+- Advanced orbit visualization improvements
+- UI micro-animations & polish
+
+---
+
+End of v2.2 Release Notes
+
+
 # ISS Spotter – Version v2.1 Release Notes
 
 **Release Date:** 2026-03-01  

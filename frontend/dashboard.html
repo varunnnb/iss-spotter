@@ -22,18 +22,31 @@
   <!-- ⭐ Stars -->
   <div id="star-container"></div>
 
-  <!-- 🔝 Header -->
-  <div class="header">
-    <div class="header-left">
-      <div class="title">ISS SPOTTER</div>
-    </div>
+<!-- 🔝 Header -->
+<div class="header">
+  <div class="header-left">
+    <div class="title">ISS SPOTTER</div>
+  </div>
 
+  <div style="display: flex; align-items: center; gap: 14px;">
+
+    <!-- About Button -->
+    <button 
+      class="notify-btn" 
+      onclick="window.location.href='about.html'"
+      style="padding: 6px 18px; font-size: 12px;">
+      About
+    </button>
+
+    <!-- Profile Avatar -->
     <img
       id="profileAvatar"
       class="profile-avatar"
       onclick="window.location.href='profile.html'"
     />
+
   </div>
+</div>
 
 
 <!-- 🧩 ISS WIDGETS CONTAINER -->

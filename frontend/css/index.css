@@ -184,3 +184,17 @@
   opacity: 0.7;
   z-index: 4;
 }
+
+
+.notify-btn {
+  margin-top: 6px;
+  padding: 8px 22px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #fff;
+  background: linear-gradient(90deg, #6a7cff, #9b6bff);
+  box-shadow: 0 0 18px rgba(140,150,255,0.5);
+  margin-left: 93%;
+}
