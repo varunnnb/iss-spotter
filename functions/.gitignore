@@ -1,2 +1,7 @@
-node_modules/
-*.local
+node_modules
+
+secrets
+
+.firebase.json
+.firebase.indexes.json
+.firebase.rules

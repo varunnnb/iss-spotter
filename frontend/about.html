@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>ISS Spotter · About</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<!-- CSS -->
+<link rel="stylesheet" href="./css/about.css" />
+
+</head>
+<body>
+
+<div id="star-container"></div>
+
+<div class="container">
+
+  <div class="back" onclick="location.href='dashboard.html'">
+    ← Back to dashboard
+  </div>
+
+  <div class="title">ABOUT ISS SPOTTER</div>
+
+  <!-- STORY -->
+  <div class="section">
+    <h2>Why I Built This</h2>
+
+    <p>
+      One evening after sunset, I was sitting in my balcony when I noticed something
+      moving very fast across the sky.
+    </p>
+
+    <p>
+      It wasn’t a shooting star. It wasn’t an airplane. It moved steadily.
+      That’s when I thought — could it be a satellite?
+    </p>
+
+    <p>
+      What’s the biggest object in space that’s easily visible from Earth?
+      The International Space Station.
+    </p>
+
+    <p>
+      I checked an ISS tracking website to confirm — and it was indeed the ISS.
+      That moment genuinely made me happy.
+    </p>
+
+    <p>
+      Then I thought — what if I could track it myself?
+      What if I could get notified before the next sighting?
+    </p>
+
+    <p>
+      That curiosity led to building ISS Spotter.
+    </p>
+  </div>
+
+  <!-- GUIDE -->
+  <div class="section">
+    <h2>How to Use ISS Spotter</h2>
+
+    <ul>
+      <li>Sign in with Google.</li>
+      <li>Set your location (browser, city search, or manual coordinates).</li>
+      <li>The dashboard shows your next visible ISS pass.</li>
+      <li>View the ISS live position and orbit track on the map.</li>
+      <li>Enable email notifications from your profile.</li>
+    </ul>
+
+    <p>
+      Pass predictions are refreshed automatically in the backend every few hours.
+    </p>
+  </div>
+
+  <!-- APIs -->
+  <div class="section">
+    <h2>Public APIs & Libraries Used</h2>
+
+    <ul>
+      <li>ISS Live Data – WhereTheISS.at API</li>
+      <li>Map Tiles – OpenStreetMap</li>
+      <li>City Search – Nominatim API</li>
+      <li>Orbital Calculations – satellite.js</li>
+    </ul>
+
+    <p>
+      Grateful to these open APIs and libraries that make space data accessible.
+    </p>
+  </div>
+
+  <!-- PRIVACY -->
+  <div class="section">
+    <h2>Privacy Note</h2>
+
+    <p>ISS Spotter is designed with minimal data collection, transparency,
+    and full user control. Below is a detailed explanation of how your data
+    is handled.
+    <br><br>
+
+    <strong>What we store:</strong><br>
+    • Your Google display name and email address (for authentication and communication)<br>
+    • The last location you provide (latitude and longitude), used only to calculate ISS visibility<br>
+    • Your notification preference (whether you choose to receive emails or not)<br>
+    <br>
+
+    <strong>How location is provided:</strong><br>
+    • You may allow browser-based location access, search for a city or place, or manually enter coordinates<br>
+    • Granting browser location permission is optional and not required to use the application<br>
+    • Only the most recent location you provide is stored<br>
+    • We do not collect location history and do not track movement over time<br>
+    <br>
+
+    <strong>Email communications:</strong><br>
+    • If enabled, emails are sent on days when the ISS is expected to be visible from your saved location<br>
+    • Emails may also be sent to inform you about new versions, feature releases, or important updates to the application<br>
+    • All emails are plain text only<br>
+    • No sponsored, promotional, marketing, or third-party content is ever included<br>
+    • You may disable email notifications at any time from your profile<br>
+    <br>
+
+    <strong>What we do NOT do:</strong><br>
+    • We do not track you in real time<br>
+    • We do not continuously access your location<br>
+    • We do not access your contacts, files, or browsing activity<br>
+    • We do not sell, share, or monetize your data in any form<br>
+    • We do not use third-party analytics or profiling tools<br>
+    <br>
+
+    <strong>Your control:</strong><br>
+    You remain in full control of your data at all times.
+    You may update or delete your stored location, delete your saved user data,
+    or permanently delete your account whenever you choose.
+
+    </p>
+  </div>
+
+  <!-- ABOUT ME -->
+  <div class="section">
+    <h2>About Me</h2>
+
+    <p>
+      Built by <strong>Varun Bhargava</strong>
+    </p>
+
+    <p>
+      GitHub: <a href="https://github.com/varunnnb" target="_blank">github.com/varunnnb</a><br>
+      LinkedIn: <a href="https://linkedin.com/in/varunbhargava22" target="_blank">linkedin.com/in/varunbhargava22</a>
+    </p>
+  </div>
+
+</div>
+
+<div class="footer-note">v2.1</div>
+
+<!-- Stars -->
+<script>
+const starContainer = document.getElementById("star-container");
+for (let i = 0; i < 180; i++) {
+  const star = document.createElement("div");
+  star.className = "star";
+  const size = Math.random() * 1.5 + 0.5;
+  star.style.width = `${size}px`;
+  star.style.height = `${size}px`;
+  star.style.left = `${Math.random() * 100}%`;
+  star.style.top = `${Math.random() * 100}%`;
+  star.style.animationDuration = `${Math.random() * 7 + 5}s`;
+  star.style.animationDelay = `${Math.random() * 7}s`;
+  starContainer.appendChild(star);
+}
+</script>
+
+</body>
+</html>

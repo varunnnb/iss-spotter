@@ -1,0 +1,138 @@
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100%;
+  font-family: "Inter", sans-serif;
+  color: #fff;
+  overflow-y: auto;
+}
+
+/* ===== BACKGROUND ===== */
+body {
+  background: linear-gradient(
+    120deg,
+    #050510,
+    #0b0d2b,
+    #120c3a,
+    #050510
+  );
+  background-size: 400% 400%;
+  animation: gradientMove 20s ease infinite;
+  position: relative;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== STARS ===== */
+.star {
+  position: fixed;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  animation: twinkle linear infinite;
+  z-index: 1;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0; }
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  position: relative;
+  z-index: 5;
+  max-width: 850px;
+  margin: 60px auto;
+  padding: 32px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(18px);
+  box-shadow:
+    0 0 30px rgba(120,150,255,0.25),
+    0 40px 90px rgba(0,0,0,0.9);
+  animation: floatCard 8s ease-in-out infinite;
+}
+
+@keyframes floatCard {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* ===== BACK LINK ===== */
+.back {
+  font-size: 13px;
+  cursor: pointer;
+  color: #b8c4ff;
+  margin-bottom: 20px;
+}
+
+/* ===== TITLE ===== */
+.title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 16px rgba(140,170,255,.6);
+}
+
+/* ===== SECTION ===== */
+.section {
+  margin-top: 30px;
+}
+
+.section h2 {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #d0d8ff;
+}
+
+.section p {
+  font-size: 14px;
+  line-height: 1.7;
+  opacity: 0.9;
+  margin-bottom: 14px;
+}
+
+.section ul {
+  margin-left: 18px;
+  font-size: 14px;
+  line-height: 1.8;
+  opacity: 0.9;
+}
+
+.section li {
+  margin-bottom: 6px;
+}
+
+/* ===== LINKS ===== */
+a {
+  color: #9bb3ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===== FOOTER ===== */
+.footer-note {
+  text-align: center;
+  font-size: 11px;
+  color: #aab2ff;
+  opacity: 0.7;
+  margin-top: 40px;
+  padding-bottom: 20px;
+}
